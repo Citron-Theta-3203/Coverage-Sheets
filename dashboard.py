@@ -3,7 +3,7 @@ import pandas as pd
 from openpyxl import load_workbook
 
 # Filepath for the Excel file
-FILE_PATH = r"C:/Users/noel.bhumana/Documents/Github/Data Extraction/Extracted_Data/Coverage_Sheet_Bible.xlsx"
+FILE_PATH = r"Coverage_Sheet_Bible.xlsx"
 
 # Title and description
 st.set_page_config(
