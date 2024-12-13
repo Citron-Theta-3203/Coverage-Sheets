@@ -5,6 +5,20 @@ from openpyxl import load_workbook
 # Filepath for the Excel file
 FILE_PATH = r"C:/Users/noel.bhumana/Documents/Github/Data Extraction/Extracted_Data/Coverage_Sheet_Bible.xlsx"
 
+# Title and description
+st.set_page_config(
+    page_title="Coverage Sheet Dashboard",
+    # page_icon=":bar_chart:",
+    layout="wide"
+)
+
+# Rest of your Streamlit app code
+st.title("Coverage Sheet Dashboard")
+st.markdown(
+    """This dashboard provides tools to filter, edit, add, and sort the coverage sheet data.
+    Updated changes will reflect directly in the Excel file."""
+)
+
 # Load the Excel file and cache the data
 @st.cache_data
 def load_data():
@@ -18,12 +32,7 @@ def save_data(data):
 # Load initial data
 data = load_data()
 
-# Title and description
-st.title("Coverage Sheet Dashboard")
-st.markdown(
-    """This dashboard provides tools to filter, edit, add, and sort the coverage sheet data.
-    Updated changes will reflect directly in the Excel file."""
-)
+
 
 # Filter by "Relevant Program" column
 st.sidebar.header("Filter Options")
@@ -41,11 +50,16 @@ st.write(filtered_data)
 
 # Sort by "Checked" column
 if "Checked" in data.columns:
-    st.subheader("Latest Rows Sorted by Checked Column")
+    st.subheader("Latest Coverage Sheets Sorted by Checked Column")
     # Convert "Checked" column to datetime, coercing errors to NaT
     data["Checked"] = pd.to_datetime(data["Checked"], errors="coerce")
     sorted_data = data.sort_values(by="Checked", ascending=False, na_position="last")
-    st.write(sorted_data)
+    if program_filter != "All":
+        filtered_data_by_Date = sorted_data[sorted_data["Relevant Programme"] == program_filter]
+    else:
+        filtered_data_by_Date = sorted_data
+    st.write(filtered_data_by_Date)
+
 
 
 # Edit rows
